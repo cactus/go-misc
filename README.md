@@ -12,6 +12,6 @@ Just some misc personal go libs.
 
 Released under an [MIT license][3]. See `LICENSE.md` file for details.
 
-[1]: https://travis-ci.org/cactus/go-libs
-[2]: https://godoc.org/github.com/cactus/go-libs
+[1]: https://travis-ci.org/cactus/go-misc
+[2]: https://godoc.org/github.com/cactus/go-misc
 [3]: http://www.opensource.org/licenses/mit-license.php
