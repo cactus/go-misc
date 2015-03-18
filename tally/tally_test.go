@@ -16,6 +16,8 @@ func TestTally(t *testing.T) {
 	assert.Equal(t, uint64(1), c.Get())
 	c.Inc()
 	assert.Equal(t, uint64(2), c.Get())
+	c.Set(42)
+	assert.Equal(t, uint64(42), c.Get())
 }
 
 func TestTallyConcurrent(t *testing.T) {

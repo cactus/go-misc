@@ -23,6 +23,12 @@ func (t *Tally) Get() uint64 {
 	return atomic.LoadUint64(&t.c)
 }
 
+// Sets the counter to value.
+// This operation is atomic.
+func (t *Tally) Set(i uint64) {
+	atomic.StoreUint64(&t.c, i)
+}
+
 // Increments and returns the next counter value.
 // This uses locking, to ensure that values are
 // safely incremented and returned.
