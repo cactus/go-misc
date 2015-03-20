@@ -17,14 +17,12 @@ func (t *Tally) Inc() {
 	atomic.AddUint64(&t.c, 1)
 }
 
-/*
 // Decrements the counter by one.
 // This operation is atomic.
 // Note that decrement will wrap.
 func (t *Tally) Dec() {
 	atomic.AddUint64(&t.c, ^uint64(0))
 }
-*/
 
 // Returns the current value of the counter.
 // This operation is atomic.
