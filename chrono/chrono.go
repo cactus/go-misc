@@ -52,3 +52,36 @@ func GetTime(d int64) int64 {
 	}
 	return t
 }
+
+// TimeNowString is a formatted utc time string that is updated in 1 second
+// intervals.
+type TimeNowString struct {
+	onceUpdater sync.Once
+	format      string
+	dateValue   atomic.Value
+}
+
+// Get current time value string
+func (t *TimeNowString) String() string {
+	stamp := t.dateValue.Load()
+	return stamp.(string)
+}
+
+// Force an update to the current time.
+func (t *TimeNowString) Update() {
+	t.dateValue.Store(time.Now().UTC().Format(t.format))
+}
+
+// Return a new TimeNowString struct
+func NewTimeNowString(format string) *TimeNowString {
+	t := &TimeNowString{format: format}
+	t.Update()
+	t.onceUpdater.Do(func() {
+		go func() {
+			for range time.Tick(1 * time.Second) {
+				t.Update()
+			}
+		}()
+	})
+	return t
+}

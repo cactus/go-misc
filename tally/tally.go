@@ -47,12 +47,6 @@ func (t *Tally) Reset() {
 }
 
 // Increments and returns the next counter value.
-// This uses locking, to ensure that values are
-// safely incremented and returned.
 func (t *Tally) SafeNext() uint64 {
-	t.mux.Lock()
-	t.c++
-	i := t.c
-	t.mux.Unlock()
-	return i
+	return atomic.AddUint64(&t.c, 1)
 }
