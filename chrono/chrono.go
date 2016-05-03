@@ -13,9 +13,9 @@ import (
 // TimeNow is a unix epoch time structure that is updated in 1 second
 // intervals.
 type TimeNow struct {
-	mu          sync.RWMutex
-	onceUpdater sync.Once
 	t           int64
+	onceUpdater sync.Once
+	mu          sync.RWMutex
 }
 
 // Get current time value as unix epoc.
@@ -56,9 +56,9 @@ func GetTime(d int64) int64 {
 // TimeNowString is a formatted utc time string that is updated in 1 second
 // intervals.
 type TimeNowString struct {
-	onceUpdater sync.Once
 	format      string
 	dateValue   atomic.Value
+	onceUpdater sync.Once
 }
 
 // Get current time value string
