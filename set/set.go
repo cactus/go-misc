@@ -15,7 +15,7 @@ type HashSet struct {
 	mux sync.RWMutex
 }
 
-// Create and return a new HashSet
+// NewHashSet creates and returns a new HashSet
 // items is a list of initial set members.
 func NewHashSet(items []string) *HashSet {
 	h := &HashSet{m: make(map[string]struct{})}
@@ -27,7 +27,7 @@ func NewHashSet(items []string) *HashSet {
 	return h
 }
 
-// Add an item to the HashSet.
+// Add adds an item to the HashSet.
 func (h *HashSet) Add(item string) {
 	h.mux.Lock()
 	h.m[item] = struct{}{}

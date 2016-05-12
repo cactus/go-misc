@@ -18,17 +18,17 @@ type TimeNow struct {
 	mu          sync.RWMutex
 }
 
-// Get current time value as unix epoc.
+// Get returns the current time value as unix epoc.
 func (t *TimeNow) Get() int64 {
 	return atomic.LoadInt64(&t.t)
 }
 
-// Force an update to the current time.
+// Update forces an update to the current time.
 func (t *TimeNow) Update() {
 	atomic.StoreInt64(&t.t, time.Now().UTC().Unix())
 }
 
-// Return a new TimeNow struct
+// NewTimeNow returns a new TimeNow struct
 func NewTimeNow() *TimeNow {
 	t := &TimeNow{t: time.Now().UTC().Unix()}
 	t.onceUpdater.Do(func() {
@@ -44,7 +44,7 @@ func NewTimeNow() *TimeNow {
 // internal/global TimeNow struct
 var nowTimer = NewTimeNow()
 
-// Gets the current TimeNow time in unix epoc.
+// GetTime returns the current TimeNow time in unix epoc.
 func GetTime(d int64) int64 {
 	t := nowTimer.Get()
 	if d > 0 {
@@ -61,18 +61,19 @@ type TimeNowString struct {
 	onceUpdater sync.Once
 }
 
-// Get current time value string
+// String fulfills the stringer interface.
+// returns the current time value as a string
 func (t *TimeNowString) String() string {
 	stamp := t.dateValue.Load()
 	return stamp.(string)
 }
 
-// Force an update to the current time.
+// Update forces an update to the current time.
 func (t *TimeNowString) Update() {
 	t.dateValue.Store(time.Now().UTC().Format(t.format))
 }
 
-// Return a new TimeNowString struct
+// NewTimeNowString returns a new TimeNowString struct
 func NewTimeNowString(format string) *TimeNowString {
 	t := &TimeNowString{format: format}
 	t.Update()

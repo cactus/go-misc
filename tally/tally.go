@@ -15,38 +15,38 @@ type Tally struct {
 	mux sync.Mutex
 }
 
-// Increments the counter by one.
+// Inc increments the counter by one.
 // This operation is atomic.
 func (t *Tally) Inc() {
 	atomic.AddUint64(&t.c, 1)
 }
 
-// Decrements the counter by one.
+// Dec decrements the counter by one.
 // This operation is atomic.
 // Note that decrement will wrap.
 func (t *Tally) Dec() {
 	atomic.AddUint64(&t.c, ^uint64(0))
 }
 
-// Returns the current value of the counter.
+// Get returns the current value of the counter.
 // This operation is atomic.
 func (t *Tally) Get() uint64 {
 	return atomic.LoadUint64(&t.c)
 }
 
-// Sets the counter to value.
+// Set sets the counter to value.
 // This operation is atomic.
 func (t *Tally) Set(i uint64) {
 	atomic.StoreUint64(&t.c, i)
 }
 
-// Sets the counter to 0.
+// Reset sets the counter to 0.
 // This operation is atomic.
 func (t *Tally) Reset() {
 	atomic.StoreUint64(&t.c, 0)
 }
 
-// Increments and returns the next counter value.
+// SafeNext increments and returns the next counter value.
 func (t *Tally) SafeNext() uint64 {
 	return atomic.AddUint64(&t.c, 1)
 }
