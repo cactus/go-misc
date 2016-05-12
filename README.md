@@ -3,6 +3,8 @@ go-misc
 
 [![Build Status](https://travis-ci.org/cactus/go-misc.png?branch=master)][1]
 [![GoDoc](https://godoc.org/github.com/cactus/go-misc?status.png)][2]
+[![Go Report Card](https://goreportcard.com/badge/cactus/go-misc)](https://goreportcard.com/report/cactus/go-misc)
+
 
 ## About
 
