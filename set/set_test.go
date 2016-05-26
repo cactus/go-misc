@@ -68,3 +68,33 @@ func TestHashSetContains(t *testing.T) {
 	assert.Equal(t, true, s.Contains("btest"))
 	assert.Equal(t, false, s.Contains("ctest"))
 }
+
+func TestHashSetUnion(t *testing.T) {
+	t.Parallel()
+	a := NewHashSet([]string{"1", "2", "3"})
+	b := NewHashSet([]string{"3", "4", "5"})
+	c := a.Union(b)
+
+	items := c.Items()
+	assert.Equal(t, items, []string{"1", "2", "3", "4", "5"})
+}
+
+func TestHashSetIntersection(t *testing.T) {
+	t.Parallel()
+	a := NewHashSet([]string{"1", "2", "3"})
+	b := NewHashSet([]string{"3", "4", "5"})
+	c := a.Intersection(b)
+
+	items := c.Items()
+	assert.Equal(t, items, []string{"3"})
+}
+
+func TestHashSetDifference(t *testing.T) {
+	t.Parallel()
+	a := NewHashSet([]string{"1", "2", "3"})
+	b := NewHashSet([]string{"3", "4", "5"})
+	c := a.Difference(b)
+
+	items := c.Items()
+	assert.Equal(t, items, []string{"1", "2"})
+}

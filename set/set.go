@@ -48,6 +48,16 @@ func (h *HashSet) Clear() {
 	h.mux.Unlock()
 }
 
+// Copy returns a new copy of the HashSet.
+func (h *HashSet) Copy() *HashSet {
+	h.mux.RLock()
+	items := h.Items()
+	h.mux.RUnlock()
+
+	n := NewHashSet(items)
+	return n
+}
+
 // Items returns the items as a slice
 func (h *HashSet) Items() []string {
 	h.mux.RLock()
@@ -74,4 +84,49 @@ func (h *HashSet) Contains(item string) bool {
 	_, exists := h.m[item]
 	h.mux.RUnlock()
 	return exists
+}
+
+// Union returns the set union with s as a new set
+func (h *HashSet) Union(s *HashSet) *HashSet {
+	m := make(map[string]struct{})
+
+	// calls to .Items() do their own locking
+	for _, k := range h.Items() {
+		m[k] = struct{}{}
+	}
+
+	for _, k := range s.Items() {
+		m[k] = struct{}{}
+	}
+
+	return &HashSet{m: m}
+}
+
+// Intersection returns the set intersection with s as a new set
+func (h *HashSet) Intersection(s *HashSet) *HashSet {
+	m := make(map[string]struct{})
+	// get a clone to avoid extra locking
+	sc := s.Copy()
+
+	// items does its own locking
+	for _, k := range h.Items() {
+		if _, exists := sc.m[k]; exists {
+			m[k] = struct{}{}
+		}
+	}
+
+	return &HashSet{m: m}
+}
+
+// Difference returns a new HashSet which contains the result of subtracting s
+// from the HashSet
+func (h *HashSet) Difference(s *HashSet) *HashSet {
+	c := h.Copy()
+
+	// items does its own locking
+	for _, k := range s.Items() {
+		delete(c.m, k)
+	}
+
+	return c
 }
