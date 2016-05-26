@@ -37,7 +37,7 @@ func TestTallyConcurrent(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		wg.Add(1)
 		go func() {
-			rezchan <- c.SafeNext()
+			rezchan <- c.Next()
 			wg.Done()
 		}()
 	}

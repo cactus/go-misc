@@ -46,7 +46,7 @@ func (t *Tally) Reset() {
 	atomic.StoreUint64(&t.c, 0)
 }
 
-// SafeNext increments and returns the next counter value.
-func (t *Tally) SafeNext() uint64 {
+// Next increments and returns the next counter value.
+func (t *Tally) Next() uint64 {
 	return atomic.AddUint64(&t.c, 1)
 }
