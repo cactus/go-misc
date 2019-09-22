@@ -14,6 +14,6 @@ Just some misc personal go libs.
 
 Released under an [ISC license][3]. See `LICENSE.md` file for details.
 
-[1]: https://github.com/cactus/go-statsd-client/actions
+[1]: https://github.com/cactus/go-misc/actions
 [2]: https://godoc.org/github.com/cactus/go-misc
 [3]: https://choosealicense.com/licenses/isc/
