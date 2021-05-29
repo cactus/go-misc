@@ -9,23 +9,24 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func TestTally(t *testing.T) {
 	t.Parallel()
 	c := &Tally{}
-	assert.Equal(t, uint64(0), c.Get())
+	assert.Check(t, is.Equal(uint64(0), c.Get()))
 	c.Inc()
-	assert.Equal(t, uint64(1), c.Get())
+	assert.Check(t, is.Equal(uint64(1), c.Get()))
 	c.Inc()
-	assert.Equal(t, uint64(2), c.Get())
+	assert.Check(t, is.Equal(uint64(2), c.Get()))
 	c.Set(42)
-	assert.Equal(t, uint64(42), c.Get())
+	assert.Check(t, is.Equal(uint64(42), c.Get()))
 	c.Reset()
-	assert.Equal(t, uint64(0), c.Get())
+	assert.Check(t, is.Equal(uint64(0), c.Get()))
 	c.Inc()
-	assert.Equal(t, uint64(1), c.Get())
+	assert.Check(t, is.Equal(uint64(1), c.Get()))
 }
 
 func TestTallyConcurrent(t *testing.T) {
@@ -49,5 +50,5 @@ func TestTallyConcurrent(t *testing.T) {
 		x = append(x, int(y))
 	}
 	sort.Ints(x)
-	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, x)
+	assert.Check(t, is.DeepEqual([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, x))
 }

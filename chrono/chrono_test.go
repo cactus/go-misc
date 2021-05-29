@@ -8,7 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/assert/opt"
 )
 
 func TestTimeNow(t *testing.T) {
@@ -18,7 +20,7 @@ func TestTimeNow(t *testing.T) {
 
 	now := time.Now().UTC()
 	cnow := time.Unix(c.Get(), 0)
-	assert.WithinDuration(t, now, cnow, 2*time.Second)
+	assert.Assert(t, is.DeepEqual(now, cnow, opt.TimeWithThreshold(2*time.Second)))
 }
 
 func BenchmarkTimeNow(b *testing.B) {
@@ -39,7 +41,7 @@ func TestTimeNowString(t *testing.T) {
 
 	now := time.Now().UTC().Format("Mon, 02 Jan 2006 15:04 GMT")
 	cnow := c.String()
-	assert.Equal(t, now, cnow)
+	assert.Check(t, is.Equal(now, cnow))
 }
 
 func TestTimeNowStringDelay(t *testing.T) {
@@ -51,7 +53,7 @@ func TestTimeNowStringDelay(t *testing.T) {
 	c.Update()
 	l := c.String()
 
-	assert.NotEqual(t, n, l,
+	assert.Check(t, n != l,
 		"Date did not update as expected: %s == %s", n, l)
 }
 

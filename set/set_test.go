@@ -7,7 +7,8 @@ package set
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 func TestHashSetAdd(t *testing.T) {
@@ -15,7 +16,7 @@ func TestHashSetAdd(t *testing.T) {
 	s := NewHashSet(nil)
 	s.Add("btest")
 	s.Add("atest")
-	assert.Equal(t, []string{"atest", "btest"}, s.Items())
+	assert.Check(t, is.DeepEqual([]string{"atest", "btest"}, s.Items()))
 }
 
 func TestHashSetDuplicateAdd(t *testing.T) {
@@ -25,48 +26,48 @@ func TestHashSetDuplicateAdd(t *testing.T) {
 	s.Add("atest")
 	s.Add("atest")
 	s.Add("btest")
-	assert.Equal(t, []string{"atest", "btest"}, s.Items())
+	assert.Check(t, is.DeepEqual([]string{"atest", "btest"}, s.Items()))
 }
 
 func TestHashSetNewAdd(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
-	assert.Equal(t, []string{"atest", "btest"}, s.Items())
+	assert.Check(t, is.DeepEqual([]string{"atest", "btest"}, s.Items()))
 }
 
 func TestHashSetDelete(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
 	s.Del("btest")
-	assert.Equal(t, []string{"atest"}, s.Items())
+	assert.Check(t, is.DeepEqual([]string{"atest"}, s.Items()))
 }
 
 func TestHashSetClear(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
 	s.Clear()
-	assert.Equal(t, []string{}, s.Items())
-	assert.Equal(t, 0, s.Count())
+	assert.Check(t, is.DeepEqual([]string{}, s.Items()))
+	assert.Check(t, is.Equal(0, s.Count()))
 }
 
 func TestHashSetCount(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
-	assert.Equal(t, 2, s.Count())
+	assert.Check(t, is.Equal(2, s.Count()))
 	s.Add("ctest")
-	assert.Equal(t, 3, s.Count())
+	assert.Check(t, is.Equal(3, s.Count()))
 	s.Del("ctest")
-	assert.Equal(t, 2, s.Count())
+	assert.Check(t, is.Equal(2, s.Count()))
 	s.Clear()
-	assert.Equal(t, 0, s.Count())
+	assert.Check(t, is.Equal(0, s.Count()))
 }
 
 func TestHashSetContains(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
-	assert.Equal(t, true, s.Contains("atest"))
-	assert.Equal(t, true, s.Contains("btest"))
-	assert.Equal(t, false, s.Contains("ctest"))
+	assert.Check(t, is.Equal(true, s.Contains("atest")))
+	assert.Check(t, is.Equal(true, s.Contains("btest")))
+	assert.Check(t, is.Equal(false, s.Contains("ctest")))
 }
 
 func TestHashSetUnion(t *testing.T) {
@@ -76,7 +77,7 @@ func TestHashSetUnion(t *testing.T) {
 	c := a.Union(b)
 
 	items := c.Items()
-	assert.Equal(t, items, []string{"1", "2", "3", "4", "5"})
+	assert.Check(t, is.DeepEqual(items, []string{"1", "2", "3", "4", "5"}))
 }
 
 func TestHashSetIntersection(t *testing.T) {
@@ -86,7 +87,7 @@ func TestHashSetIntersection(t *testing.T) {
 	c := a.Intersection(b)
 
 	items := c.Items()
-	assert.Equal(t, items, []string{"3"})
+	assert.Check(t, is.DeepEqual(items, []string{"3"}))
 }
 
 func TestHashSetDifference(t *testing.T) {
@@ -96,5 +97,5 @@ func TestHashSetDifference(t *testing.T) {
 	c := a.Difference(b)
 
 	items := c.Items()
-	assert.Equal(t, items, []string{"1", "2"})
+	assert.Check(t, is.DeepEqual(items, []string{"1", "2"}))
 }
