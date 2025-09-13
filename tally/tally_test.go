@@ -9,24 +9,23 @@ import (
 	"sync"
 	"testing"
 
-	"gotest.tools/v3/assert"
-	is "gotest.tools/v3/assert/cmp"
+	"github.com/dropwhile/assert"
 )
 
 func TestTally(t *testing.T) {
 	t.Parallel()
 	c := &Tally{}
-	assert.Check(t, is.Equal(uint64(0), c.Get()))
+	assert.Equal(t, c.Get(), uint64(0))
 	c.Inc()
-	assert.Check(t, is.Equal(uint64(1), c.Get()))
+	assert.Equal(t, c.Get(), uint64(1))
 	c.Inc()
-	assert.Check(t, is.Equal(uint64(2), c.Get()))
+	assert.Equal(t, c.Get(), uint64(2))
 	c.Set(42)
-	assert.Check(t, is.Equal(uint64(42), c.Get()))
+	assert.Equal(t, c.Get(), uint64(42))
 	c.Reset()
-	assert.Check(t, is.Equal(uint64(0), c.Get()))
+	assert.Equal(t, c.Get(), uint64(0))
 	c.Inc()
-	assert.Check(t, is.Equal(uint64(1), c.Get()))
+	assert.Equal(t, c.Get(), uint64(1))
 }
 
 func TestTallyConcurrent(t *testing.T) {
@@ -50,5 +49,5 @@ func TestTallyConcurrent(t *testing.T) {
 		x = append(x, int(y))
 	}
 	sort.Ints(x)
-	assert.Check(t, is.DeepEqual([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, x))
+	assert.Equal(t, x, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 }

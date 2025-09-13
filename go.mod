@@ -1,8 +1,5 @@
 module github.com/cactus/go-misc
 
-go 1.13
+go 1.22.0
 
-require (
-	github.com/google/go-cmp v0.6.0 // indirect
-	gotest.tools/v3 v3.5.2
-)
+require github.com/dropwhile/assert v1.2.0

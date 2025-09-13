@@ -8,9 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"gotest.tools/v3/assert"
-	is "gotest.tools/v3/assert/cmp"
-	"gotest.tools/v3/assert/opt"
+	"github.com/dropwhile/assert"
 )
 
 func TestTimeNow(t *testing.T) {
@@ -20,7 +18,7 @@ func TestTimeNow(t *testing.T) {
 
 	now := time.Now().UTC()
 	cnow := time.Unix(c.Get(), 0)
-	assert.Assert(t, is.DeepEqual(now, cnow, opt.TimeWithThreshold(2*time.Second)))
+	assert.True(t, now.Sub(cnow) < 2*time.Second)
 }
 
 func BenchmarkTimeNow(b *testing.B) {
@@ -41,7 +39,7 @@ func TestTimeNowString(t *testing.T) {
 
 	now := time.Now().UTC().Format("Mon, 02 Jan 2006 15:04 GMT")
 	cnow := c.String()
-	assert.Check(t, is.Equal(now, cnow))
+	assert.Equal(t, now, cnow)
 }
 
 func TestTimeNowStringDelay(t *testing.T) {
@@ -53,7 +51,7 @@ func TestTimeNowStringDelay(t *testing.T) {
 	c.Update()
 	l := c.String()
 
-	assert.Check(t, n != l,
+	assert.NotEqual(t, n, l,
 		"Date did not update as expected: %s == %s", n, l)
 }
 
@@ -63,7 +61,7 @@ func BenchmarkTimeNowString(b *testing.B) {
 	b.ResetTimer()
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			c.String()
+			_ = c.String()
 		}
 	})
 }

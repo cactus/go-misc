@@ -7,8 +7,7 @@ package set
 import (
 	"testing"
 
-	"gotest.tools/v3/assert"
-	is "gotest.tools/v3/assert/cmp"
+	"github.com/dropwhile/assert"
 )
 
 func TestHashSetAdd(t *testing.T) {
@@ -16,7 +15,7 @@ func TestHashSetAdd(t *testing.T) {
 	s := NewHashSet(nil)
 	s.Add("btest")
 	s.Add("atest")
-	assert.Check(t, is.DeepEqual([]string{"atest", "btest"}, s.Items()))
+	assert.Equal(t, s.Items(), []string{"atest", "btest"})
 }
 
 func TestHashSetDuplicateAdd(t *testing.T) {
@@ -26,48 +25,48 @@ func TestHashSetDuplicateAdd(t *testing.T) {
 	s.Add("atest")
 	s.Add("atest")
 	s.Add("btest")
-	assert.Check(t, is.DeepEqual([]string{"atest", "btest"}, s.Items()))
+	assert.Equal(t, s.Items(), []string{"atest", "btest"})
 }
 
 func TestHashSetNewAdd(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
-	assert.Check(t, is.DeepEqual([]string{"atest", "btest"}, s.Items()))
+	assert.Equal(t, s.Items(), []string{"atest", "btest"})
 }
 
 func TestHashSetDelete(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
 	s.Del("btest")
-	assert.Check(t, is.DeepEqual([]string{"atest"}, s.Items()))
+	assert.Equal(t, s.Items(), []string{"atest"})
 }
 
 func TestHashSetClear(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
 	s.Clear()
-	assert.Check(t, is.DeepEqual([]string{}, s.Items()))
-	assert.Check(t, is.Equal(0, s.Count()))
+	assert.Equal(t, s.Items(), []string{})
+	assert.Equal(t, s.Count(), 0)
 }
 
 func TestHashSetCount(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
-	assert.Check(t, is.Equal(2, s.Count()))
+	assert.Equal(t, s.Count(), 2)
 	s.Add("ctest")
-	assert.Check(t, is.Equal(3, s.Count()))
+	assert.Equal(t, s.Count(), 3)
 	s.Del("ctest")
-	assert.Check(t, is.Equal(2, s.Count()))
+	assert.Equal(t, s.Count(), 2)
 	s.Clear()
-	assert.Check(t, is.Equal(0, s.Count()))
+	assert.Equal(t, s.Count(), 0)
 }
 
 func TestHashSetContains(t *testing.T) {
 	t.Parallel()
 	s := NewHashSet([]string{"btest", "atest"})
-	assert.Check(t, is.Equal(true, s.Contains("atest")))
-	assert.Check(t, is.Equal(true, s.Contains("btest")))
-	assert.Check(t, is.Equal(false, s.Contains("ctest")))
+	assert.Equal(t, s.Contains("atest"), true)
+	assert.Equal(t, s.Contains("btest"), true)
+	assert.Equal(t, s.Contains("ctest"), false)
 }
 
 func TestHashSetUnion(t *testing.T) {
@@ -77,7 +76,7 @@ func TestHashSetUnion(t *testing.T) {
 	c := a.Union(b)
 
 	items := c.Items()
-	assert.Check(t, is.DeepEqual(items, []string{"1", "2", "3", "4", "5"}))
+	assert.Equal(t, items, []string{"1", "2", "3", "4", "5"})
 }
 
 func TestHashSetIntersection(t *testing.T) {
@@ -87,7 +86,7 @@ func TestHashSetIntersection(t *testing.T) {
 	c := a.Intersection(b)
 
 	items := c.Items()
-	assert.Check(t, is.DeepEqual(items, []string{"3"}))
+	assert.Equal(t, items, []string{"3"})
 }
 
 func TestHashSetDifference(t *testing.T) {
@@ -97,5 +96,5 @@ func TestHashSetDifference(t *testing.T) {
 	c := a.Difference(b)
 
 	items := c.Items()
-	assert.Check(t, is.DeepEqual(items, []string{"1", "2"}))
+	assert.Equal(t, items, []string{"1", "2"})
 }
