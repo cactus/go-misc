@@ -19,10 +19,8 @@ type HashSet struct {
 // items is a list of initial set members.
 func NewHashSet(items []string) *HashSet {
 	h := &HashSet{m: make(map[string]struct{})}
-	if items != nil {
-		for _, x := range items {
-			h.m[x] = struct{}{}
-		}
+	for _, x := range items {
+		h.m[x] = struct{}{}
 	}
 	return h
 }

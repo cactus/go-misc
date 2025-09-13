@@ -5,14 +5,12 @@
 package tally
 
 import (
-	"sync"
 	"sync/atomic"
 )
 
 // Tally is a counter structure.
 type Tally struct {
-	c   uint64
-	mux sync.Mutex
+	c uint64
 }
 
 // Inc increments the counter by one.
